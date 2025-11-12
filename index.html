@@ -147,10 +147,10 @@
 </head>
 <body>
 
-    <audio id="background-music" loop>
-        <source src="gentle-piano.mp3" type="audio/mp3">
+    <!-- <audio id="background-music" loop>
+        <source src="./baarishein-studio-anuv-jain_Z2yor9WX.mp3" type="audio/mp3">
         Your browser does not support the audio element.
-    </audio>
+    </audio> -->
 
     <div id="confetti-container">
         <div class="balloon" style="left: 5%;"></div>
@@ -178,35 +178,13 @@
     <button id="unmute-btn" aria-pressed="false" style="position:fixed;right:18px;bottom:18px;z-index:9999;padding:10px 14px;border-radius:6px;border:none;background:#ff4081;color:#fff;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,.15);">
         Enable Sound
     </button>
+    <div id="play-overlay" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35));z-index:9998;">
+        <button id="play-btn" style="background:#ff4081;border:none;color:#fff;padding:18px 24px;border-radius:12px;font-size:18px;font-weight:700;box-shadow:0 8px 20px rgba(0,0,0,0.25);">Tap to Play Music</button>
+    </div>
         </p>
     </div>
 
 <!-- 
-    <script>
-        // Try to play (muted autoplay should start). On first user interaction we unmute.
-        const music = document.getElementById('background-music');
-
-        // Ensure play is attempted on load (some browsers still require gesture)
-        window.addEventListener('load', () => {
-            music.play().catch(()=>{ /* ignore autoplay rejection */ });
-        });
-
-        // Unmute on first user gesture (click/tap/keydown) so audio becomes audible
-        function unmuteOnUserGesture() {
-            if (music.muted) {
-                music.muted = false;
-                music.play().catch(()=>{});
-            }
-            removeListeners();
-        }
-
-        function removeListeners() {
-            ['click','touchstart','keydown'].forEach(e => document.removeEventListener(e, unmuteOnUserGesture));
-        }
-
-        ['click','touchstart','keydown'].forEach(e => document.addEventListener(e, unmuteOnUserGesture, { passive: true }));
-    </script> -->
-
     <script>
         // Single audio element (autoplay muted). Unmute on user gesture or button click.
         const music = document.getElementById('bg-audio');
@@ -252,6 +230,68 @@
             e.stopPropagation();
             enableSound();
         });
+    </script> -->
+    
+    <script>
+        const music = document.getElementById('bg-audio');
+        const unmuteBtn = document.getElementById('unmute-btn');
+        const playOverlay = document.getElementById('play-overlay');
+        const playBtn = document.getElementById('play-btn');
+
+        function isMobileOrInApp() {
+            return /Mobi|Android|iPhone|iPad|iPod|FBAN|FBAV|Instagram|Twitter/i.test(navigator.userAgent);
+        }
+
+        // Show overlay on mobile / in-app browsers where autoplay is often blocked
+        if (isMobileOrInApp()) {
+            playOverlay.style.display = 'flex';
+        }
+
+        // Try muted autoplay on load (allowed in many browsers)
+        window.addEventListener('load', () => {
+            if (music) {
+                music.play().catch(()=>{ /* autoplay rejected */ });
+                if (!music.muted) unmuteBtn.style.display = 'none';
+            }
+        });
+
+        // Resume WebAudio context if needed (some WebViews require this)
+        function resumeAudioContextIfNeeded() {
+            try {
+                const Ctx = window.AudioContext || window.webkitAudioContext;
+                if (!Ctx) return Promise.resolve();
+                window._audioCtx = window._audioCtx || new Ctx();
+                if (window._audioCtx.state === 'suspended') return window._audioCtx.resume();
+            } catch (e) { /* ignore */ }
+            return Promise.resolve();
+        }
+
+        function enableSound() {
+            resumeAudioContextIfNeeded().then(() => {
+                if (music) {
+                    if (music.muted) music.muted = false;
+                    music.play().catch(()=>{ /* ignore */ });
+                }
+                unmuteBtn.style.display = 'none';
+                playOverlay.style.display = 'none';
+                unmuteBtn.setAttribute('aria-pressed', 'true');
+                removeGestureListeners();
+            });
+        }
+
+        function gestureUnmute() { enableSound(); }
+
+        function removeGestureListeners() {
+            ['click','touchstart','keydown'].forEach(e => document.removeEventListener(e, gestureUnmute));
+        }
+
+        // Global one-tap gesture to enable sound
+        ['click','touchstart','keydown'].forEach(e => document.addEventListener(e, gestureUnmute, { passive: true }));
+
+        // Explicit controls
+        unmuteBtn.addEventListener('click', (ev) => { ev.stopPropagation(); enableSound(); });
+        playBtn.addEventListener('click', (ev) => { ev.stopPropagation(); enableSound(); });
+
     </script>
 
 </body>
