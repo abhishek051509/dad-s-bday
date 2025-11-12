@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Dad 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS is included here for simplicity as a single page */
+        :root {
+            /* Define color variables for easy changes */
+            --blue-start: #b3e5fc; /* Soft Sky Blue */
+            --golden-end: #ffeb3b; /* Soft Golden */
+            --text-color: #333;
+            --glowing-color: #ff4081; /* Pink/Rose for glowing text */
+        }
+
+        body {
+            /* Soft gradient background */
+            background: linear-gradient(135deg, var(--blue-start) 0%, #aed581 50%, var(--golden-end) 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            position: relative;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent white box */
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 500px;
+        }
+
+        /* --- Header Styling --- */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem; /* Large and elegant */
+            font-weight: 700;
+            color: #d32f2f; /* Deep Red for warmth */
+            margin-bottom: 20px;
+            /* Subtle text shadow for pop */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Message Styling --- */
+        .message {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            font-style: italic;
+            font-weight: 400;
+            color: #555;
+        }
+
+        /* --- Glowing Text Styling --- */
+        .signature {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 30px;
+            color: var(--glowing-color);
+            /* Glowing effect */
+            text-shadow: 0 0 5px var(--glowing-color),
+                         0 0 10px var(--glowing-color),
+                         0 0 15px rgba(255, 64, 129, 0.5);
+            animation: pulse 2s infinite alternate; /* Subtle breathing glow */
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
+
+        /* --- Animation (Confetti/Balloon) Container --- */
+        #confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicks through the confetti layer */
+            z-index: -1; /* Place behind the content */
+            opacity: 0.8;
+        }
+
+        /* Placeholder for a simple rising balloon animation (CSS only) */
+        .balloon {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background-color: #ff6f91; /* Pink */
+            border-radius: 50%;
+            box-shadow: inset -5px -5px 0px rgba(0,0,0,0.1);
+            animation: rise 10s ease-in-out infinite;
+            opacity: 0;
+        }
+        .balloon:nth-child(2) { background-color: #ff99c8; animation-delay: 2s; left: 15%; width: 35px; height: 45px; }
+        .balloon:nth-child(3) { background-color: #f7a77d; animation-delay: 4s; left: 50%; }
+        .balloon:nth-child(4) { background-color: #fce38a; animation-delay: 6s; left: 80%; width: 25px; height: 35px; }
+        .balloon:nth-child(5) { background-color: #a2d2ff; animation-delay: 8s; left: 30%; }
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            width: 1px;
+            height: 15px;
+            background: #fff;
+            transform: translateX(-50%);
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            5% { opacity: 0.8; }
+            95% { opacity: 0.8; }
+            100% { transform: translateY(-50vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            .message {
+                font-size: 1rem;
+            }
+            .signature {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="background-music" loop>
+        <source src="gentle-piano.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="confetti-container">
+        <div class="balloon" style="left: 5%;"></div>
+        <div class="balloon" style="left: 25%;"></div>
+        <div class="balloon" style="left: 45%;"></div>
+        <div class="balloon" style="left: 65%;"></div>
+        <div class="balloon" style="left: 85%;"></div>
+    </div>
+
+    <div class="container">
+        <h1>Happy Birthday, Dad! 🎉</h1>
+
+        <p class="message">
+            “You are my hero, my biggest inspiration, and my strongest support. 
+            Thank you for everything you’ve done. Wishing you a day full of love, 
+            laughter, and peace.”
+        </p>
+
+        <p class="signature">
+            With love, your child ❤️
+            <audio id="bg-audio" loop autoplay muted playsinline preload="auto">
+        <source src="./baarishein-studio-anuv-jain_Z2yor9WX.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button id="unmute-btn" aria-pressed="false" style="position:fixed;right:18px;bottom:18px;z-index:9999;padding:10px 14px;border-radius:6px;border:none;background:#ff4081;color:#fff;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,.15);">
+        Enable Sound
+    </button>
+        </p>
+    </div>
+
+<!-- 
+    <script>
+        // Try to play (muted autoplay should start). On first user interaction we unmute.
+        const music = document.getElementById('background-music');
+
+        // Ensure play is attempted on load (some browsers still require gesture)
+        window.addEventListener('load', () => {
+            music.play().catch(()=>{ /* ignore autoplay rejection */ });
+        });
+
+        // Unmute on first user gesture (click/tap/keydown) so audio becomes audible
+        function unmuteOnUserGesture() {
+            if (music.muted) {
+                music.muted = false;
+                music.play().catch(()=>{});
+            }
+            removeListeners();
+        }
+
+        function removeListeners() {
+            ['click','touchstart','keydown'].forEach(e => document.removeEventListener(e, unmuteOnUserGesture));
+        }
+
+        ['click','touchstart','keydown'].forEach(e => document.addEventListener(e, unmuteOnUserGesture, { passive: true }));
+    </script> -->
+
+    <script>
+        // Single audio element (autoplay muted). Unmute on user gesture or button click.
+        const music = document.getElementById('bg-audio');
+        const unmuteBtn = document.getElementById('unmute-btn');
+
+        // Try to start muted playback on load (muted autoplay is allowed in most browsers)
+        window.addEventListener('load', () => {
+            music.play().catch(()=>{ /* ignore autoplay rejection */ });
+            // Hide button if audio is already unmuted for any reason
+            if (!music.muted) unmuteBtn.style.display = 'none';
+        });
+
+        // Unmute handler (called by button or first user gesture)
+        function enableSound() {
+            if (music.muted) {
+                music.muted = false;
+                music.play().catch(()=>{ /* ignore play errors */ });
+            }
+            unmuteBtn.style.display = 'none';
+            unmuteBtn.setAttribute('aria-pressed', 'true');
+            removeGestureListeners();
+        }
+
+        // Remove global gesture listeners after first interaction
+        function removeGestureListeners() {
+            ['click','touchstart','keydown'].forEach(e =>
+                document.removeEventListener(e, gestureUnmute)
+            );
+        }
+
+        // On first user gesture, unmute so audio becomes audible
+        function gestureUnmute() {
+            enableSound();
+        }
+
+        // Add gesture listeners (once) so a single tap/click will unmute
+        ['click','touchstart','keydown'].forEach(e =>
+            document.addEventListener(e, gestureUnmute, { passive: true })
+        );
+
+        // Allow explicit button to unmute as well
+        unmuteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            enableSound();
+        });
+    </script>
+
+</body>
+</html>
